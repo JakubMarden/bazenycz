@@ -1,0 +1,53 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+	<meta charset="utf-8">
+
+	<title>{ifset title}{include title|striptags} | {/ifset}Bazenycz</title>
+
+	<link rel="stylesheet" href="{$basePath}/css/style.css">
+        <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+        <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+        <script src="{$basePath}/js/bootstrap.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{block head}{/block}
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <a class="navbar-brand" href="/admin">Admin Bazenycz</a>
+              </div>
+              <div>
+                <div id="menu">
+                    <ul class="nav navbar-nav">
+                        <li><a href ="Actual">Aktuality</a></li>
+                        <li><a n:href ="User:default">správa účtů</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a n:href ="Admin:logout"><span class="glyphicon glyphicon-log-in"></span> Odhlásit</a></li>
+                    </ul>    
+                </div>
+            </div>
+        </nav>
+        <div>    
+            <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+
+            {include content}
+
+            {block scripts}
+            <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+            <script src="//nette.github.io/resources/js/netteForms.min.js"></script>
+            <script src="{$basePath}/js/main.js"></script>
+            {/block}
+        </div>
+    </div>    
+</body>
+</html>
