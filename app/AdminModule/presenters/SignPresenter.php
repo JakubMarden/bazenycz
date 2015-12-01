@@ -12,8 +12,7 @@ use Nette\Application\UI\Form as Form;
 
 class SignPresenter extends \Nette\Application\UI\Presenter
 {
-    private $user_salt = "A3of24anri7";
-    
+  
     	protected function createComponentSignInForm()
 	{
 		$form = new Form;
@@ -31,7 +30,7 @@ class SignPresenter extends \Nette\Application\UI\Presenter
             
             try {
                 $values = $form->getValues();  
-                $credentials = [$values->username,  $this->calculateHash($values->password)];
+                $credentials = [$values->username, $values->password];
                 $this->user->login($credentials);
                 
                 if ($this->user->isLoggedIn()){
@@ -46,10 +45,5 @@ class SignPresenter extends \Nette\Application\UI\Presenter
             catch (NS\AuthenticationException $e) {
                 $form->addError('Neplatné uživatelské jméno nebo heslo.','error');
             }
-        }
-        
-        public function calculateHash($password)
-        {
-            return sha1($password . $this->user_salt);            
         }
 }

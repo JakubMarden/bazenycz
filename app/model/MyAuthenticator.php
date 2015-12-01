@@ -25,11 +25,12 @@ class MyAuthenticator extends Nette\Object implements NS\IAuthenticator
         public function authenticate(array $credentials)
 	{
 		list($username, $password) = $credentials[0];
-
+                
 		$row = $this->db->table($this->table)->where('username', $username)->fetch();
                 if($row){
                     $arr = $row->toArray();
-                    if ($password !== $row->password) {
+                    $password_is_correct = password_verify($password, $row->password);
+                    if ($password_is_correct !== true) {
 			throw new Nette\Security\AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
                     }
                 }
