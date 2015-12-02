@@ -4,6 +4,7 @@ namespace App\AdminModule\Presenters;
 
 use Nette\Database\Context;
 use Nette\Application\UI\Form;
+use App\Forms;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
 /**
@@ -12,9 +13,7 @@ use Nette\Mail\SendmailMailer;
  * @author Marden
  */
 class UserPresenter extends \AdminModule\BasePresenter
-{
-    private $id;
-    
+{  
     /** @var Nette\Database\Context */
     private $database;
     
@@ -30,72 +29,38 @@ class UserPresenter extends \AdminModule\BasePresenter
         $this->template->user_id = $this->user->id;
     }
     
-    public function actionEdit($id = 0)
-    {
-        // načtení záznamu z databáze
-        $user = $this->database->table('users')->fetch($id);
-        $this->id = $id;
-        
-        if (!$user) { // kontrola existence záznamu
+    public function actionEdit($id)
+    {                  
+        $user = $this->database->table('users')->fetch($id);                    // načtení záznamu z databáze
+        if (!$user->id) {                                                       // kontrola existence záznamu
             throw new BadRequestException;
-
-        }/* elseif ($user->userId != $this->user->id) { // kontrola oprávnění
-            throw new ForbiddenRequestException;
-        }*/
-
-        if($id <> 0)
-        {
-            $this['userEditForm']->setDefaults($user); // nastavení výchozích hodnot
-        }
-    }
+        } else{
+            $this['userEditForm']->setDefaults($user);                          // nastavení výchozích hodnot
+        }  
+    } 
+    
+    public function actionAdd(){}
     
     public function createComponentUserEditForm()
     {
-        $rights = $this->database->table('rights')->fetchPairs('id','name');
-        $username_list = $this->database->table('users')->fetchPairs('username');
-        
-        $form = new Form;
-        $form->addHidden('id');
-        
-        if($this->id ===0){
-           $form->addText('username', 'uživatelské jméno: ')
-                ->addRule(~Form::EQUAL,"Vyberte prosím ještě nepoužité jméno",$username_list) //kontrola jeste nepouzivaneho username pro noveho uzivatele
-                ->addRule(Form::FILLED, 'Zadejte prosím jméno.'); 
-        } else{
-           $form->addText('username', 'uživatelské jméno: ')
-                ->addRule(Form::FILLED, 'Zadejte prosím jméno.');  
+        $id = $this->getParameter('id');
+        $form = (new Forms\UserEditFormFactory($this->database))->create($this->user->roles);
+        if(!$id){
+            $form->onSuccess[] = array($this, 'userAddFormSucceeded');
+        } else {
+            $form->onSuccess[] = array($this, 'userEditFormSucceeded');
         }
-        
-        $form->addText('email', 'email: ')
-             ->addRule(Form::FILLED, 'Zadejte prosím email.')
-             ->addRule(Form::EMAIL, 'Email by měl mít platný formát');
-        
-        if(in_array("admin",$this->user->roles)) { // editace prav jen adminem
-            $form->addSelect('rights_id','level práv: ',$rights);            
-        }
-        
-        $form->addSubmit('submit', 'uložit');
-        $form->onSuccess[] = array($this, 'userEditFormSucceeded');
-        $form->addProtection('Vypršel časový limit, odešlete formulář znovu');
-        
-        //bootstrap vzhled
-        $renderer = $form->getRenderer();
-        $renderer->wrappers['controls']['container'] = NULL;
-        $renderer->wrappers['pair']['container'] = 'div class=form-group';
-        $renderer->wrappers['pair']['.error'] = 'has-error';
-        $renderer->wrappers['control']['container'] = '';
-        $renderer->wrappers['label']['container'] = 'div class="control-label col-sm-5"';
-        $renderer->wrappers['control']['description'] = 'span class=help-block';
-        $renderer->wrappers['control']['errorcontainer'] = 'span class=help-block';
-
-        $form->getElementPrototype()->class('form-horizontal col-sm-12');
         return $form;
     }
     
     public function userEditFormSucceeded(Form $form, $values)
     {
-        if(!empty($values->id)) //editace stavajicicho uzivatele
-        {           
+        $username_list = $this->database->table('users')->where('username', $values->username)->where('NOT id',$values->id)->fetchAll();
+        
+        if(!empty($username_list)){ 
+            $this->flashMessage('Bylo vybráno již použité jméno, zkuste prosím jiné.', 'warning');
+            $this->redirect('User:edit');
+        } else{
             try {
                 $data = $this->database->table('users')->get($values->id);
                 $data->update($values);
@@ -104,16 +69,26 @@ class UserPresenter extends \AdminModule\BasePresenter
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        } 
-        else // vytvoreni noveho uzivatele
-        {
+        }    
+    }    
+        
+    public function userAddFormSucceeded(Form $form, $values)
+    {
+        $username_list = $this->database->table('users')->where('username', $values->username)->fetchAll();
+        if(!empty($username_list)){  
+            $this->flashMessage('Bylo vybráno již použité jméno, zkuste prosím jiné.', 'warning');
+            $this->redirect('User:add');
+        } else {
             try {
+                $password_base = $values->id .$values->username;
+                $values->password = password_hash($password_base,PASSWORD_DEFAULT);
+                $values->token = rand(1000000,999999999);
                 $data = $this->database->table('users')->insert($values);
                 $this->flashMessage('Uživatel byl vytvořen.', 'info');
                 
                 $template = $this->createTemplate()->setFile(dirname(__FILE__) . '/templates/emails/_password_email.latte');
                 $template->id = $values->id;
-                $template->token = rand(1000000,999999999);
+                $template->token = $values->token;
                 $template->username = $values->username;
                 
                 $mail = new Message;
@@ -130,8 +105,7 @@ class UserPresenter extends \AdminModule\BasePresenter
             } catch (Exception $exc) {
                 echo $exc->getTraceAsString();
             }
-        }
-     //   dump($data);exit; 
+        }    
     }
     
     public function actionResetPassword($id)
