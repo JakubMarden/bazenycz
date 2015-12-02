@@ -25,8 +25,9 @@ class MyAuthenticator extends Nette\Object implements NS\IAuthenticator
         public function authenticate(array $credentials)
 	{
 		list($username, $password) = $credentials[0];
+                $rights = $this->db->table('rights')->fetchPairs('id','name');
                 
-		$row = $this->db->table($this->table)->where('username', $username)->fetch();
+		$row = $this->db->table($this->table)->where('username', $username)->where('active',1)->fetch();
                 if($row){
                     $arr = $row->toArray();
                     $password_is_correct = password_verify($password, $row->password);
@@ -38,7 +39,6 @@ class MyAuthenticator extends Nette\Object implements NS\IAuthenticator
 			throw new Nette\Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
 
 		}
-		return new Nette\Security\Identity($row->id, $row->rights_id, $arr);
-	}
-       
+		return new Nette\Security\Identity($row->id, $rights[$row->rights_id], $arr);
+	}      
 }

@@ -6,6 +6,7 @@
         <th>uživatelské jméno</th>
         <th>email</th>
         <th>práva</th>
+        <th>aktivní</th>
         <th>editovat</th>
         <th>resetovat heslo</th>
       </tr>
@@ -16,8 +17,12 @@
                 <td>{$user->username}</td>
                 <td>{$user->email}</td>
                 <td>{$user->ref('rights','rights_id')->name}</td>
-                <td><a n:href ='User:edit $user->id'>editovat</a></td>
-                <td><a n:href ='User:reset $user->id'>resetovat</a></td>
+                <td>{if $user->active===1}ano{else}ne{/if}</td>
+                <td>{if $user_id !==$user->id}editovat                          <!--pro uzivatele bez opravneni na editaci-->
+                    {else}<a n:href ='User:edit $user->id'>editovat</a>         <!--pro uzivatele s opravnenim na editaci-->
+                    {/if}
+                </td>
+                <td><a n:href ='User:resetPassword $user->id'>resetovat</a></td>
             <tr>
         {/foreach}        
     </tbody>
