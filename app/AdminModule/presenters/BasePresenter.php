@@ -20,6 +20,10 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
         parent::startup();
         if(!$this->user->isLoggedIn()){
             $this->redirect('Sign:in');
+        }  
+        else{
+            $this->template->admin = in_array('admin', $this->user->roles);
+            $this->template->userid = $this->user->id;
         }
     }
 }

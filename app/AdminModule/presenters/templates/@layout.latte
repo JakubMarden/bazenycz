@@ -20,7 +20,7 @@
 
 <body>
     <div class="container">
-        <nav class="navbar navbar-inverse">
+        {if isset($userid)}<nav class="navbar navbar-inverse">
             <div class="container-fluid">
               <div class="navbar-header">
                 <a class="navbar-brand" href="/admin">Admin Bazenycz</a>
@@ -29,14 +29,18 @@
                 <div id="menu">
                     <ul class="nav navbar-nav">
                         <li><a href ="Actual">Aktuality</a></li>
-                        <li><a n:href ="User:default">správa účtů</a></li>
+                        {ifset $admin} 
+                            {if $admin===true}<li><a n:href ="User:default">správa účtů</a></li>
+                            {elseif $admin===false}<li><a n:href ="User:edit $userid">správa účtu</a></li> 
+                            {/if}
+                        {/ifset}
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li><a n:href ="Admin:logout"><span class="glyphicon glyphicon-log-in"></span> Odhlásit</a></li>
                     </ul>    
                 </div>
             </div>
-        </nav>
+        </nav>{/if}
         <div>    
             <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 

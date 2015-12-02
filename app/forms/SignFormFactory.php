@@ -9,7 +9,7 @@ use Nette\Security\User;
 
 class SignFormFactory extends Nette\Object
 {
-	/** @var User **/
+	/** @var User */
 	private $user;
 
 
