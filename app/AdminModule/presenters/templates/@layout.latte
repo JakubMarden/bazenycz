@@ -14,8 +14,13 @@
         <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
         <link rel="shortcut icon" href="{$basePath}/favicon.ico">
         <script src="{$basePath}/js/bootstrap.min.js"></script>
+        <script src="{$basePath}/ckeditor/ckeditor.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/main.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/jquery-1.4.3.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+        <link rel="stylesheet" media="screen,projection,tv" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{block head}{/block}
+	{block head}{/block} 
 </head>
 
 <body>
@@ -28,7 +33,7 @@
               <div>
                 <div id="menu">
                     <ul class="nav navbar-nav">
-                        <li><a href ="Actual">Aktuality</a></li>
+                        <li><a n:href ="News:default">Aktuality</a></li>
                         {ifset $admin} 
                             {if $admin===true}<li><a n:href ="User:default">správa účtů</a></li>
                             {elseif $admin===false}<li><a n:href ="User:edit $userid">správa účtu</a></li> 

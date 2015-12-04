@@ -25,5 +25,8 @@ abstract class BasePresenter extends \Nette\Application\UI\Presenter
             $this->template->admin = in_array('admin', $this->user->roles);
             $this->template->userid = $this->user->id;
         }
+        \Nette\Forms\Container::extensionMethod('addDatePicker', function (\Nette\Forms\Container $container, $name, $label = NULL) {
+            return $container[$name] = new \JanTvrdik\Components\DatePicker($label);
+        });
     }
 }

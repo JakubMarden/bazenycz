@@ -1,0 +1,20 @@
+{block content}
+<h2 n:block=title>Přehled novinek</h2>
+
+        {foreach $news as $item}
+            <div class ='well well-sm'>
+                <a n:href = "News:delete $item->id" onclick="return confirmMsg('Opravdu chcete smazat novinku {$item->header}?')"><button type="button" class="btn btn-danger fright"><span class="glyphicon glyphicon-remove"></span>  smazat</button></a>
+                <a n:href = "News:edit $item->id"><button type="button" class="btn btn-primary fright"> <span class="glyphicon glyphicon-edit"></span>  editovat</button></a>
+                <a n:href = "News:changeActive $item->id"><button type="button" class="btn btn-info fright"><span class="glyphicon glyphicon-search"></span>{$item->active === 1 ? '  schovat' : '  zviditelnit'}</button></a>
+                
+                {$item->date|date:'%d.%m.%Y'}<br />
+                <h3>{$item->header}</h3>
+                <p class="p120">{$item->perex}</p><br />
+                {$item->content|noescape}    
+                
+            </div>
+            
+        {/foreach}        
+
+        <a n:href="News:add" class="btn btn-default">vytvořit novinku</a>    
+   
