@@ -60,7 +60,13 @@ class NewsPresenter extends \AdminModule\BasePresenter
     {     
          try {
             $data = $this->database->table('news')->get($id);
-            $data->active === 1 ? $values['active'] = 0 : $values['active'] = 1;
+            
+            if($data->active === 1){ 
+                $values['active'] = 0;  
+            } else { 
+                $values['active'] = 1;
+            }
+            
             $data->update($values);
             $this->flashMessage('Viditelnost byla změněna.', 'info');
             $this->redirect('News:default');

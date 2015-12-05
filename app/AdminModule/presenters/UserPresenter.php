@@ -87,8 +87,7 @@ class UserPresenter extends \AdminModule\BasePresenter
                 $this->flashMessage('Uživatel byl vytvořen.', 'info');
                 
                 $template = $this->createTemplate()->setFile(dirname(__FILE__) . '/templates/emails/_password_email.latte');
-                $template->id = $values->id;
-                $template->token = $values->token;
+                $template->id = $values->id .'-' .$values->token;
                 $template->username = $values->username;
                 
                 $mail = new Message;
@@ -109,7 +108,7 @@ class UserPresenter extends \AdminModule\BasePresenter
     }
     
     public function actionResetPassword($id)
-    {
+    {        
         try {
             $data = $this->database->table('users')->get($id);
             $password_base = $id .$data->username;
@@ -119,8 +118,7 @@ class UserPresenter extends \AdminModule\BasePresenter
             $this->flashMessage('Heslo bylo resetováno.', 'info');
             
             $template = $this->createTemplate()->setFile(dirname(__FILE__) . '/templates/emails/_password_email.latte');
-            $template->id = $id;
-            $template->token = $update['token'];
+            $template->id = $id.'-'.$update['token'];
             $template->username = $data->username;
             
             $mail = new Message;
@@ -133,7 +131,7 @@ class UserPresenter extends \AdminModule\BasePresenter
             $mailer->send($mail);
             
             $this->flashMessage('Email s odkazem na změnu hesla byl odeslán.', 'info');
-            $this->redirect('Sign:in');
+            $this->redirect('User:default');
         } catch (Exception $exc) {
             echo $exc->getTraceAsString();
         }
