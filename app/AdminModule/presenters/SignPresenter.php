@@ -10,6 +10,7 @@ namespace App\AdminModule\Presenters;
 use Nette\Database\Context;
 use Nette\Application\UI;
 use Nette\Application\UI\Form as Form;
+use Nette\Security as NS;
 
 class SignPresenter extends \Nette\Application\UI\Presenter
 {
@@ -60,7 +61,7 @@ class SignPresenter extends \Nette\Application\UI\Presenter
             $array = explode('-',$id);
             $id = $array[0];
             $token = $array[1];
-            $user = $this->database->table('users')->fetch($id);
+            $user = $this->database->table('users')->get($id);
             $password = $id .$user->username;
             $allow_change = password_verify($password, $user->password); // kontrola, ze uzivatel meni heslo opravdu sobe
             if($allow_change === false || $token != $user->token){

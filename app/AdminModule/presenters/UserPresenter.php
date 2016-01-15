@@ -7,6 +7,7 @@ use Nette\Application\UI\Form;
 use App\Forms;
 use Nette\Mail\Message;
 use Nette\Mail\SendmailMailer;
+
 /**
  * Description of UserPresenter
  *
@@ -91,7 +92,7 @@ class UserPresenter extends \AdminModule\BasePresenter
                 $template->username = $values->username;
                 
                 $mail = new Message;
-                $mail->setFrom('info@bazeny.cz')
+                $mail->setFrom('info@bazenycz.cz')
                     ->addTo($data->email)
                     ->setSubject('Bazenycz - vytvoření účtu')
                     ->setHtmlBody($template);
@@ -122,7 +123,7 @@ class UserPresenter extends \AdminModule\BasePresenter
             $template->username = $data->username;
             
             $mail = new Message;
-            $mail->setFrom('info@bazeny.cz')
+            $mail->setFrom('info@bazenycz.cz')
                 ->addTo($data->email)
                 ->setSubject('Bazenycz - reset hesla')
                 ->setHtmlBody($template);

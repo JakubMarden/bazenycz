@@ -1,0 +1,18 @@
+{block content}
+<h2 n:block=title>Přehled galerií</h2>
+
+        {foreach $galleries as $gallery}
+            <div class ='well well-sm'>
+                <a n:href = "Gallery:delete $gallery->id" onclick="return confirmMsg('Opravdu chcete smazat galerii {$gallery->name}?')"><button type="button" class="btn btn-danger fright"><span class="glyphicon glyphicon-remove"></span>  smazat</button></a>
+                <a n:href = "Gallery:detail $gallery->id"><button type="button" class="btn btn-success fright"> <span class="glyphicon glyphicon-th"></span>  fotky</button></a>
+                <a n:href = "Gallery:edit $gallery->id"><button type="button" class="btn btn-primary fright"> <span class="glyphicon glyphicon-edit"></span>  editovat</button></a>
+                <a n:href = "Gallery:changeActive $gallery->id"><button type="button" class="btn btn-info fright"><span class="glyphicon glyphicon-search"></span>{$gallery->active === 1 ? '  schovat' : '  zviditelnit'}</button></a>
+                
+                {$gallery->date|date:'%d.%m.%Y'}<br />
+                {ifset $gallery->name}<h3>{$gallery->name}</h3>{/ifset}
+                {ifset $gallery->description}<p class="p120">{$gallery->description}</p><br />{/ifset}
+                
+                
+            </div>
+        {/foreach}
+        <a n:href="Gallery:add" class="btn btn-default">vytvořit galerii</a>  

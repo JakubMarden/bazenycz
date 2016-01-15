@@ -3,7 +3,6 @@
 namespace App\FrontendModule\Presenters;
 
 use Nette;
-use App\Model;
 
 
 /**

@@ -1,0 +1,57 @@
+{block head}
+	<script type="text/javascript" src="/js/jquery.uploadfile.min.js"></script>
+        <script type="text/javascript" src="/js/core.js"></script>
+{/block}
+{block content}
+<h2 n:block=title>Přehled fotek v galerii</h2>
+            
+    {ifset $photos}
+       <form action="/admin/gallery/photo-delete/{$id}" method="post" id="frm-galleryDeleteForm" novalidate>
+            <div class="col-lg-12">
+                <ul class ='well well-sm thumb_ul'>
+                    
+                    {foreach $photos as $photo}
+                        <li class="col-lg-2 col-md-3 col-sm-6 col-xs-12 col-xxs-12 thumb">
+                            <a class="thumbnail img-responsive" id ="{$photo->id}" onclick="deleteFunction({$photo->id});">
+                                <img class="img-responsive" src="/photos/{$photo->file}" alt="">
+                                <input type="checkbox" name="delete_checkbox[]" class ="nor"  value="{$photo->id}"/>
+                            </a>
+                        </li>
+                    {/foreach} 
+                    
+                </ul>                
+            </div>
+            <div class ='col-lg-12 submit_div'>
+                <input type="submit" name="_submit" class="btn btn-danger btn-md fright" value="X smazat označené" onclick="return confirmMsg('Opravdu chcete smazat tyto fotky?)">
+            </div>    
+        </form>    
+    {/ifset}  
+        
+    <div class ='col-lg-12'>
+        <div class = "well well-sm">
+	<!-- status message will be appear here -->
+	<div class="status"></div>
+	
+	<!-- multiple file upload form -->
+	{control galleryDetailForm}
+	
+	<!-- progress bar -->
+	<div class="progress">
+		<div class="bar"></div >
+		<div class="percent progress-bar">0%</div >
+            </div>    
+	</div>
+    </div>
+    <div class ='col-lg-12 submit_div'>
+        <a n:href = "Gallery:default"><button type="button" class="btn btn-success fright"> <span class="glyphicon glyphicon-book"></span>  zpět na galerie</button></a>
+    </div>    
+{/block}        
+
+{block scripts}
+	<!-- javascript dependencies -->
+	<script type="text/javascript" src="/js/jquery.form.min.js"></script>
+	
+	<!-- main script -->
+	<script type="text/javascript" src="/js/script.js"></script>
+        
+{/block}   

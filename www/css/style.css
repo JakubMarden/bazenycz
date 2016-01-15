@@ -1,5 +1,7 @@
-body {	font-size: 15px; line-height: 1.6; color: #333; background: white;}
+body {	font-size: 15px; line-height: 1.6; color: #333; background: white; text-align: center; border:0; margin:0; padding:0; }
 h1 { color: #3484D2; }
+h2 { color: #166197; font-weight: 800; margin-bottom: 0; font-size: 170%}
+hr { width:100%; display: block; margin-left: auto; margin-right: auto;  color: #00a2ff; background-color:#00a2ff; height:1px; border:0; }
 #ajax-spinner {	margin: 15px 0 0 15px; padding: 13px; background: white url('../images/spinner.gif') no-repeat 50% 50%;	font-size: 0; z-index: 123456; display: none; }
 div.flash { color: black; background: #FFF9D7; border: 1px solid #E2C822; padding: 1em; margin: 1em 0; }
 
@@ -10,6 +12,36 @@ form .required label { font-weight: bold; }
 form .error { color: #D00; font-weight: bold; }
 
 .p120 { font-size: 120%; }
+.fleft { float:left; }
 .fright { float:right; margin-left: 10px;}
+.big { font-size: 150%; }
+.blue { color: #166197; }
+.blue a { color:#166197; }
 .custom-label { width:12%; float:left;}
+.v-center {  position: relative;  top: 50%; display:inline-block;  -webkit-transform: translateY(-50%);  -ms-transform: translateY(-50%);  transform: translateY(-50%); }
+.vcenter { display: inline-block; vertical-align: middle; float: none !important; }
+.hidden { visibility: hidden; }
+.nor { display:none; }
+.inline-block { display:inline-block; }
+.icon { background: #00a2ff; width:44px; height:44px; float:left; margin-right: 10px; position: relative; top:27px; left:10px;}
+.bubble { background: yellow; padding:0px 10px; float:left; margin:0px 5px; height:100px; z-index: 2}
+.bubble p {  margin: 0 10px; z-index: 2; font-weight: 800; background: yellow; padding: 2px 5px;}
+.clearfix:after {  content: ".";  display: block;  clear: both;  visibility: hidden;  line-height: 0;  height: 0;}
+.clearfix {  display: inline-block;}
+.thumb { display:inline-block; float:none!important;}
+.thumb_ul { display:inline-table; }
+.submit_div { height:50px; }
+html[xmlns] .clearfix{   display: block;}
+* html .clearfix {   height: 1%;}
 #cke_content { clear: both; }
+input#files { display: inline-block; }
+#submit_files { padding: 7px 12px 8px 12px;}
+
+.progress { margin-top:10px; }
+#frm-galleryDetailForm { float:none; }
+
+
+
+
+
+

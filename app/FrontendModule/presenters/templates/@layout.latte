@@ -8,23 +8,34 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>{ifset title}{include title|striptags} | {/ifset}Bazenycz</title>
+	<title>{ifset title}{include title|striptags} | {/ifset}Rasy pro Tebe</title>
 
 	<link rel="stylesheet" href="{$basePath}/css/style.css">
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
 	<meta name="viewport" content="width=device-width">
-	{block head}{/block}
+        <meta name="description" content="..starosti s vašim bazénem nechte na nás... montáž, údržba, čištění, zazimování ad...tedy veškeré služby ohledně bazénů zvládneme za Vás."/>
+	<meta name="keywords" content="bazenycz, údržba bazénů, servis bazénů, montáž bazénů, bazény Azuro"/>
+        <meta name="author" content="Josef Jakub Jestřáb"/>
+        <meta name="Robots" content="all"/>
+        <meta name="language" content="Czech"/>
+        {block head}{/block}
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-
-	{include content}
-
-	{block scripts}
+	<div id ="body">
+            <h1 class = "nor">Bazénycz ...starosti s vašim bazénem nechte na nás</h1>
+            <!--top part-->
+            <div id = "header">
+                <a  class = "v-center" n:href = 'Homepage:default'><img id = "logo" src = "{$basePath}/images/Bazenycz-logo.png" alt = "logo Bazénycz"/></a>
+                <div id = "motto"></div>
+                <div id = "flag"></div>
+                <a href = "http://www.facebook.com/Bazenycz-1661557497423639/"><div id = "facebook"></div></a>
+            </div>
+        </div>    
+            
+        {block scripts}
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-	<script src="//nette.github.io/resources/js/netteForms.min.js"></script>
-	<script src="{$basePath}/js/main.js"></script>
+        <script type="text/javascript" src="{$basePath}/js/core.js"></script>
 	{/block}
 </body>
 </html>

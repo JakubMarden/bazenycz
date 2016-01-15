@@ -32,11 +32,11 @@ class MyAuthenticator extends Nette\Object implements NS\IAuthenticator
                     $arr = $row->toArray();
                     $password_is_correct = password_verify($password, $row->password);
                     if ($password_is_correct !== true) {
-			throw new Nette\Security\AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+			throw new NS\AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
                     }
                 }
 		else {
-			throw new Nette\Security\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+			throw new NS\AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
 
 		}
 		return new Nette\Security\Identity($row->id, $rights[$row->rights_id], $arr);

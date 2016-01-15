@@ -8,19 +8,21 @@
 <head>
 	<meta charset="utf-8">
 
-	<title>{ifset title}{include title|striptags} | {/ifset}Bazenycz</title>
+	<title>{ifset title}{include title|striptags} | {/ifset}Řasy pro Tebe</title>
 
 	<link rel="stylesheet" href="{$basePath}/css/style.css">
         <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{$basePath}/css/uploadfile.css">
         <link rel="shortcut icon" href="{$basePath}/favicon.ico">
+        <script src="{$basePath}/js/jquery-1.4.3.min.js"></script>
+        <script src="{$basePath}/js/jquery-1.9.1.js"></script>
         <script src="{$basePath}/js/bootstrap.min.js"></script>
         <script src="{$basePath}/ckeditor/ckeditor.js"></script>
         <script type="text/javascript" src="{$basePath}/js/main.js"></script>
-        <script type="text/javascript" src="{$basePath}/js/jquery-1.4.3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-        <link rel="stylesheet" media="screen,projection,tv" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/smoothness/jquery-ui.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	{block head}{/block} 
+        
+	{block head}{/block}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -28,15 +30,16 @@
         {if isset($userid)}<nav class="navbar navbar-inverse">
             <div class="container-fluid">
               <div class="navbar-header">
-                <a class="navbar-brand" href="/admin">Admin Bazenycz</a>
+                <a class="navbar-brand" href="/admin">Admin Řasy pro Tebe</a>
               </div>
               <div>
                 <div id="menu">
                     <ul class="nav navbar-nav">
                         <li><a n:href ="News:default">Aktuality</a></li>
+                        <li><a n:href ="Gallery:default">Fotogalerie</a></li>
                         {ifset $admin} 
-                            {if $admin===true}<li><a n:href ="User:default">správa účtů</a></li>
-                            {elseif $admin===false}<li><a n:href ="User:edit $userid">správa účtu</a></li> 
+                            {if $admin===true}<li><a n:href ="User:default">Správa účtů</a></li>
+                            {elseif $admin===false}<li><a n:href ="User:edit $userid">Správa účtu</a></li> 
                             {/if}
                         {/ifset}
                     </ul>

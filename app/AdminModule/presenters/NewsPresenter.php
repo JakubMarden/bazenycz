@@ -23,7 +23,7 @@ class NewsPresenter extends \AdminModule\BasePresenter
     
     public function renderDefault()
     {
-        $news = $this->database->table('news');       
+        $news = $this->database->table('news')->order("date");       
         $this->template->news = $news; 
     }
     
@@ -36,7 +36,7 @@ class NewsPresenter extends \AdminModule\BasePresenter
     
     public function actionEdit($id)
     {                  
-        $news = $this->database->table('news')->fetch($id);                    // načtení záznamu z databáze
+        $news = $this->database->table('news')->get($id);                    // načtení záznamu z databáze
         if (!$news->id) {                                                       // kontrola existence záznamu
             throw new BadRequestException;
         } else{
